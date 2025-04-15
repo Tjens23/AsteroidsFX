@@ -1,1 +1,9 @@
 .idea/
+mods-mvn/
+Player/target/
+Enemy/target/
+Core/target/
+Common/target/
+Collision/target/
+Bullet/target/
+Asteroid/target/
