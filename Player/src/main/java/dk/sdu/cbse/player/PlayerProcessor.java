@@ -1,6 +1,5 @@
 package dk.sdu.cbse.player;
 
-import dk.sdu.cbse.bullet.BulletControlSystem;
 import dk.sdu.cbse.common.bullet.BulletSPI;
 import dk.sdu.cbse.common.data.Entity;
 import dk.sdu.cbse.common.data.GameData;
@@ -8,7 +7,8 @@ import dk.sdu.cbse.common.data.GameKeys;
 import dk.sdu.cbse.common.data.World;
 import dk.sdu.cbse.common.services.IEntityProcessingService;
 import java.util.Collection;
-import java.util.List;
+import java.util.ServiceLoader;
+import java.util.stream.Collectors;
 
 public class PlayerProcessor implements IEntityProcessingService {
     @Override
@@ -94,13 +94,9 @@ public class PlayerProcessor implements IEntityProcessingService {
         }
     }
 
-    // Method to get BulletSPI services - this would be properly implemented
-    // based on your service provider mechanism
     private Collection<BulletSPI> getBulletServices() {
-        // In a ServiceLoader pattern, you might do something like:
-        // return ServiceLoader.load(BulletSPI.class);
-
-        // For now, return a simple implementation
-        return List.of(new BulletControlSystem());
+        return ServiceLoader.load(BulletSPI.class).stream()
+                .map(ServiceLoader.Provider::get)
+                .collect(Collectors.toList());
     }
 }

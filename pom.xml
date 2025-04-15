@@ -10,11 +10,6 @@
     <maven.compiler.source>1.9</maven.compiler.source>
     <maven.compiler.target>1.9</maven.compiler.target>
   </properties>
-  <dependencyManagement>
-    <dependencies>
-      <!-- Add shared dependencies here if needed -->
-    </dependencies>
-  </dependencyManagement>
   <build>
     <plugins>
       <plugin>
@@ -43,6 +38,7 @@
           <executable>java</executable>
           <workingDirectory>.</workingDirectory>
           <arguments>
+            <argument>--module=Core/dk.sdu.cbse.App</argument>
             <argument>--module-path=mods-mvn</argument>
             <argument>--class-path=libs/*</argument>
             <argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=127.0.0.1:8000</argument>

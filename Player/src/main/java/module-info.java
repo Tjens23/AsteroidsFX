@@ -1,5 +1,6 @@
 module Player {
     requires Common;
+    requires Bullet;
     exports dk.sdu.cbse.player;
 
     uses dk.sdu.cbse.common.bullet.BulletSPI;

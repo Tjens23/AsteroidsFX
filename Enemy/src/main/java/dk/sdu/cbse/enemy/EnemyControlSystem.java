@@ -9,6 +9,7 @@ import dk.sdu.cbse.common.services.IEntityProcessingService;
 import java.util.Collection;
 import java.util.Random;
 import java.util.ServiceLoader;
+import java.util.stream.Collectors;
 
 public class EnemyControlSystem implements IEntityProcessingService {
     private final Random random = new Random();
@@ -74,7 +75,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
     }
 
     private void shoot(Entity enemy, GameData gameData, World world) {
-        Collection<BulletSPI> bulletServices = ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).toList();
+        Collection<BulletSPI> bulletServices = ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(Collectors.toList());
 
         for (BulletSPI bulletService : bulletServices) {
             Entity bullet = bulletService.createBullet(enemy, gameData);

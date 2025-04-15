@@ -1,4 +1,5 @@
 module Enemy {
+    uses dk.sdu.cbse.common.bullet.BulletSPI;
     exports dk.sdu.cbse.enemy;
     requires Bullet;
     requires Common;
