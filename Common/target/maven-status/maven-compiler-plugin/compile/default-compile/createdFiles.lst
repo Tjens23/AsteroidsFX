@@ -6,5 +6,6 @@ dk\sdu\cbse\common\bullet\BulletSPI.class
 module-info.class
 dk\sdu\cbse\common\services\IGamePluginService.class
 dk\sdu\cbse\common\services\IEntityProcessingService.class
+dk\sdu\cbse\common\services\ILifeSystemService.class
 dk\sdu\cbse\common\services\IPostEntityProcessingService.class
 dk\sdu\cbse\common\data\World.class
