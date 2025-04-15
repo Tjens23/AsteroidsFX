@@ -9,4 +9,9 @@ module Core {
     uses dk.sdu.cbse.common.services.IGamePluginService;
     uses dk.sdu.cbse.common.services.IEntityProcessingService;
     uses dk.sdu.cbse.common.services.IPostEntityProcessingService;
+
+    requires spring.context;
+    requires spring.beans;
+    requires spring.core;
+    opens dk.sdu.cbse to spring.core;
 }

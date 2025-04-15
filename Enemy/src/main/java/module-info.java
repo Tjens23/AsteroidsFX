@@ -7,4 +7,9 @@ module Enemy {
             with dk.sdu.cbse.enemy.EnemyPlugin;
     provides dk.sdu.cbse.common.services.IEntityProcessingService
             with dk.sdu.cbse.enemy.EnemyControlSystem;
+
+    requires spring.beans;
+    requires spring.context;
+
+    opens dk.sdu.cbse.enemy to spring.core;
 }

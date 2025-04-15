@@ -5,4 +5,9 @@ module Collision {
 
     provides dk.sdu.cbse.common.services.IPostEntityProcessingService
             with dk.sdu.cbse.collision.CollisionDetector;
+
+    requires spring.beans;
+    requires spring.context;
+
+    opens dk.sdu.cbse.collision to spring.core;
 }

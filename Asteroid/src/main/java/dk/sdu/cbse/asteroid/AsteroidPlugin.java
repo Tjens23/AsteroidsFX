@@ -4,9 +4,11 @@ import dk.sdu.cbse.common.data.Entity;
 import dk.sdu.cbse.common.data.GameData;
 import dk.sdu.cbse.common.data.World;
 import dk.sdu.cbse.common.services.IGamePluginService;
+import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+@Component
 public class AsteroidPlugin implements IGamePluginService {
     private final Random random = new Random();
 

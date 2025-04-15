@@ -1,5 +1,6 @@
 module Bullet {
     requires Common;
+    requires spring.context;
     exports dk.sdu.cbse.bullet;
 
     provides dk.sdu.cbse.common.bullet.BulletSPI with
