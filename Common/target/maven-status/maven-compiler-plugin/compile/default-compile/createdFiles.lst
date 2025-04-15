@@ -1,0 +1,10 @@
+dk\sdu\cbse\common\bullet\Bullet.class
+dk\sdu\cbse\common\data\Entity.class
+dk\sdu\cbse\common\data\GameData.class
+dk\sdu\cbse\common\data\GameKeys.class
+dk\sdu\cbse\common\bullet\BulletSPI.class
+module-info.class
+dk\sdu\cbse\common\services\IGamePluginService.class
+dk\sdu\cbse\common\services\IEntityProcessingService.class
+dk\sdu\cbse\common\services\IPostEntityProcessingService.class
+dk\sdu\cbse\common\data\World.class
