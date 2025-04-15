@@ -1,6 +1,5 @@
 package dk.sdu.cbse.enemy;
 
-
 import dk.sdu.cbse.common.data.Entity;
 import dk.sdu.cbse.common.data.GameData;
 import dk.sdu.cbse.common.data.World;
@@ -9,27 +8,37 @@ import dk.sdu.cbse.common.services.IGamePluginService;
 import java.util.Random;
 
 public class EnemyPlugin implements IGamePluginService {
-    private Entity enemy;
     private final Random random = new Random();
 
     @Override
     public void start(GameData gameData, World world) {
-        enemy = createEnemyShip(gameData);
+        // Create enemy ship
+        Entity enemy = createEnemyShip(gameData);
         world.addEntity(enemy);
     }
 
     private Entity createEnemyShip(GameData gameData) {
-        Entity enemyShip = new Entity();
-        enemyShip.setType("Enemy");
-        enemyShip.setX(random.nextInt(gameData.getDisplayWidth()));
-        enemyShip.setY(random.nextInt(gameData.getDisplayHeight()));
-        enemyShip.setRadius(10);
-        enemyShip.setLife(2);
-        return enemyShip;
+        Entity enemy = new Enemy();
+
+        float x = random.nextFloat() * gameData.getDisplayWidth();
+        float y = random.nextFloat() * gameData.getDisplayHeight();
+
+        enemy.setX(x);
+        enemy.setY(y);
+        enemy.setDx(random.nextFloat() * 2 - 1);
+        enemy.setDy(random.nextFloat() * 2 - 1);
+        enemy.setRadius(10);
+        enemy.setPolygonCoordinates(0, -10, 10, 10, -10, 10, 0, -10);
+
+        return enemy;
     }
 
     @Override
     public void stop(GameData gameData, World world) {
-        world.removeEntity(enemy);
+        for (Entity entity : world.getEntities()) {
+            if (entity instanceof Enemy) {
+                world.removeEntity(entity);
+            }
+        }
     }
 }

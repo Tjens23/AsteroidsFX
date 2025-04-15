@@ -1,6 +1,5 @@
 package dk.sdu.cbse.asteroid;
 
-
 import dk.sdu.cbse.common.data.Entity;
 import dk.sdu.cbse.common.data.GameData;
 import dk.sdu.cbse.common.data.World;
@@ -13,28 +12,35 @@ public class AsteroidPlugin implements IGamePluginService {
 
     @Override
     public void start(GameData gameData, World world) {
-        for (int i = 0; i < 5; i++) {
+        // Create 4 large asteroids
+        for (int i = 0; i < 4; i++) {
             Entity asteroid = createLargeAsteroid(gameData);
             world.addEntity(asteroid);
         }
     }
 
     private Entity createLargeAsteroid(GameData gameData) {
-        Entity asteroid = new Entity();
-        asteroid.setType("Asteroid");
-        asteroid.setX(random.nextInt(gameData.getDisplayWidth()));
-        asteroid.setY(random.nextInt(gameData.getDisplayHeight()));
-        asteroid.setDx((random.nextFloat() - 0.5f) * 2);
-        asteroid.setDy((random.nextFloat() - 0.5f) * 2);
-        asteroid.setRadius(20);
-        asteroid.setLife(3);
+        Entity asteroid = new Asteroid(3); // Large asteroid
+
+        float x = random.nextFloat() * gameData.getDisplayWidth();
+        float y = random.nextFloat() * gameData.getDisplayHeight();
+
+        asteroid.setX(x);
+        asteroid.setY(y);
+        asteroid.setDx((random.nextFloat() * 2 - 1) * 30);
+        asteroid.setDy((random.nextFloat() * 2 - 1) * 30);
+
+        // Create irregular polygon shape for asteroid
+        asteroid.setPolygonCoordinates(-15, -15, 15, -8, 10, 15, -5, 10);
         return asteroid;
     }
 
     @Override
     public void stop(GameData gameData, World world) {
-        for (Entity asteroid : world.getEntities()) {
-            world.removeEntity(asteroid);
+        for (Entity entity : world.getEntities()) {
+            if (entity instanceof Asteroid) {
+                world.removeEntity(entity);
+            }
         }
     }
 }
