@@ -8,15 +8,12 @@ The game is now updated with:
 To build and run the game:
 ```
 mvn clean install
-mvn -N exec:exec
+mvn exec:exec
 ```
 
 Controls:
 - Arrow keys to move
 - SPACE to shoot
+- R to restart the game
 
-Build the project from the root folder with the following Maven command:
-mvn clean install
-
-Run the project from root folder with following Maven command :
-mvn exec:exec
+Build the project from the root folder
