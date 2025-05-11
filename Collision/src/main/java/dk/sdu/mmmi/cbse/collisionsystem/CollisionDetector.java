@@ -15,6 +15,7 @@ import java.util.ServiceLoader;
 
 public class CollisionDetector implements IPostEntityProcessingService {
     private IAsteroidSplitter asteroidSplitter;
+    private static int destroyedAsteroids = 0;  // Counter for destroyed asteroids
 
     public CollisionDetector() {
         // Load the asteroid splitter service
@@ -73,10 +74,14 @@ public class CollisionDetector implements IPostEntityProcessingService {
             Asteroid asteroid = (entity1 instanceof Asteroid) ? (Asteroid) entity1 : (Asteroid) entity2;
             Entity bullet = (entity1 instanceof Bullet) ? entity1 : entity2;
             
+            // Increment destroyed asteroids counter
+            destroyedAsteroids++;
+            
             asteroidsToSplit.add(asteroid);
             entitiesToRemove.add(bullet);
             entitiesToRemove.add(asteroid);
-            System.out.println("Bullet hit asteroid: " + asteroid.getID() + " of size " + asteroid.getSize());
+            System.out.println("Bullet hit asteroid: " + asteroid.getID() + " of size " + asteroid.getSize() + 
+                              " | Destroyed Asteroids: " + destroyedAsteroids);
         }
     }
 
