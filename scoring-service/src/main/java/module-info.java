@@ -8,7 +8,6 @@ module dk.sdu.mmmi.cbse.scoring {
     requires spring.data.jpa;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
-    // Removed H2 requirement since Spring Boot handles it
     requires java.sql;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;

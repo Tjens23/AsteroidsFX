@@ -13,13 +13,13 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
      * Find the top 10 scores ordered by value in descending order.
      * @return List of the top 10 highest scores
      */
-    List<Score> findTop10ByOrderByValueDesc();
+    List<Score> findTop10ByOrderByScoreDesc();
     
     /**
      * Find scores by player name ordered by value in descending order.
      * @param playerName the name of the player
      * @return List of scores for the given player
      */
-    List<Score> findByPlayerNameOrderByValueDesc(String playerName);
+    List<Score> findByPlayerNameOrderByScoreDesc(String playerName);
 }
 

@@ -31,7 +31,7 @@ public class ScoreService {
      * @return list of the top 10 scores
      */
     public List<Score> getTopScores() {
-        return repository.findTop10ByOrderByValueDesc();
+        return repository.findTop10ByOrderByScoreDesc();
     }
     
     /**
@@ -40,7 +40,7 @@ public class ScoreService {
      * @return list of scores for the player
      */
     public List<Score> getScoresByPlayer(String playerName) {
-        return repository.findByPlayerNameOrderByValueDesc(playerName);
+        return repository.findByPlayerNameOrderByScoreDesc(playerName);
     }
     
     /**
@@ -56,5 +56,9 @@ public class ScoreService {
      */
     public void resetScores() {
         repository.deleteAll();
+    }
+
+    public List<Score> getHighScores() {
+        return repository.findTop10ByOrderByScoreDesc();
     }
 }
