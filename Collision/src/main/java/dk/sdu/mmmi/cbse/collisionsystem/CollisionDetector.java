@@ -51,17 +51,17 @@ public class CollisionDetector implements IPostEntityProcessingService {
         // Split asteroids after removing entities
         if (asteroidSplitter != null) {
             for (Asteroid asteroid : asteroidsToSplit) {
-                System.out.println("Splitting asteroid of size: " + asteroid.getSize());
-                asteroidSplitter.createSplitAsteroid(asteroid, world);
+                System.out.println("Splitting asteroid with health points: " + asteroid.getHealthPoints());
+                asteroidSplitter.splitAsteroid(asteroid, world);
             }
         }
     }
 
     private void handleCollision(Entity entity1, Entity entity2, World world,
-                               List<Entity> entitiesToRemove, List<Asteroid> asteroidsToSplit) {
+                                 List<Entity> entitiesToRemove, List<Asteroid> asteroidsToSplit) {
         // Handle Player-Asteroid collision
         if ((entity1 instanceof Player && entity2 instanceof Asteroid) ||
-            (entity1 instanceof Asteroid && entity2 instanceof Player)) {
+                (entity1 instanceof Asteroid && entity2 instanceof Player)) {
             entitiesToRemove.add(entity1);
             entitiesToRemove.add(entity2);
             System.out.println("GAME OVER - Player hit by asteroid!");
@@ -69,14 +69,14 @@ public class CollisionDetector implements IPostEntityProcessingService {
         }
         // Handle Bullet-Asteroid collision
         else if ((entity1 instanceof Bullet && entity2 instanceof Asteroid) ||
-                 (entity1 instanceof Asteroid && entity2 instanceof Bullet)) {
+                (entity1 instanceof Asteroid && entity2 instanceof Bullet)) {
             Asteroid asteroid = (entity1 instanceof Asteroid) ? (Asteroid) entity1 : (Asteroid) entity2;
             Entity bullet = (entity1 instanceof Bullet) ? entity1 : entity2;
-            
+
             asteroidsToSplit.add(asteroid);
             entitiesToRemove.add(bullet);
             entitiesToRemove.add(asteroid);
-            System.out.println("Bullet hit asteroid: " + asteroid.getID() + " of size " + asteroid.getSize());
+            System.out.println("Bullet hit asteroid: " + asteroid.getID() + " with health points " + asteroid.getHealthPoints());
         }
     }
 

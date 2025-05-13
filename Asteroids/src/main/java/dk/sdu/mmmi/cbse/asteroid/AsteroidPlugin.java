@@ -36,25 +36,27 @@ public class AsteroidPlugin implements IGamePluginService {
     public Entity createRandomAsteroid(GameData gameData, Asteroid.Size size) {
         Asteroid asteroid = new Asteroid();
         asteroid.setEntityType("ASTEROID");  // Set entity type
-        asteroid.setSize(size);
-        
+
+        // Set health points based on size
+        asteroid.setHealthPoints(size.getSize());
+
         // Position the asteroid at a random edge of the screen
         positionAtEdge(asteroid, gameData);
-        
+
         // Set random rotation (direction)
         asteroid.setRotation(rnd.nextDouble() * 360);
-        
+
         // Generate shape based on size
         generateShape(asteroid, size);
-        
+
         return asteroid;
     }
-    
+
     private void positionAtEdge(Asteroid asteroid, GameData gameData) {
         // Randomly choose which edge to spawn on
         int edge = rnd.nextInt(4); // 0: top, 1: right, 2: bottom, 3: left
         float radius = asteroid.getRadius();
-        
+
         switch (edge) {
             case 0: // top
                 asteroid.setX(rnd.nextDouble() * gameData.getDisplayWidth());
@@ -74,12 +76,12 @@ public class AsteroidPlugin implements IGamePluginService {
                 break;
         }
     }
-    
+
     private void generateShape(Asteroid asteroid, Asteroid.Size size) {
         // More points for larger asteroids
         int points;
         double variation;
-        
+
         switch (size) {
             case LARGE:
                 points = 10 + rnd.nextInt(3);  // 10-12 points
@@ -97,10 +99,10 @@ public class AsteroidPlugin implements IGamePluginService {
                 points = 8 + rnd.nextInt(3);
                 variation = 0.3;
         }
-        
+
         double[] coordinates = new double[points * 2];
-        double baseRadius = size.size;
-        
+        double baseRadius = size.getSize();
+
         for (int i = 0; i < points; i++) {
             double angle = (2 * Math.PI * i) / points;
             // Add randomness to the radius based on size
@@ -108,10 +110,11 @@ public class AsteroidPlugin implements IGamePluginService {
             coordinates[i * 2] = Math.cos(angle) * radius;
             coordinates[i * 2 + 1] = Math.sin(angle) * radius;
         }
-        
+
         asteroid.setPolygonCoordinates(coordinates);
         asteroid.setRadius((float)baseRadius); // Cast to float for the collision radius
-        
+        asteroid.setBoundingCircleRadius(baseRadius); // Set bounding circle radius for collision
+
         System.out.println("Generated " + size + " asteroid with " + points + " points");
     }
 }

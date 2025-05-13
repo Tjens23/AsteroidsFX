@@ -1,33 +1,69 @@
 package dk.sdu.mmmi.cbse.common.asteroids;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
+    import dk.sdu.mmmi.cbse.common.data.Entity;
+    import dk.sdu.mmmi.cbse.common.services.IEntityCircleCollision;
+    import dk.sdu.mmmi.cbse.common.services.IEntityHealthPoints;
 
-/**
- * Asteroid entity with size information
- * @author corfixen
- */
-public class Asteroid extends Entity {
-    public enum Size {
-        LARGE(30, 3), 
-        MEDIUM(20, 2), 
-        SMALL(10, 1);
-        
-        public final int size;
-        public final int points;
-        
-        Size(int size, int points) {
-            this.size = size;
-            this.points = points;
+    /**
+     * Asteroid entity with size information
+     * @author corfixen
+     */
+    public class Asteroid extends Entity implements IEntityCircleCollision, IEntityHealthPoints {
+
+        private float speed = 1;
+        private int healthPoints;
+        private double boundingCircleRadius;
+        public enum Size {
+            SMALL(1),
+            MEDIUM(20),
+            LARGE(30);
+
+            private int size;
+
+            Size(int size) {
+                this.size = size;
+            }
+
+            public int getSize() {
+                return size;
+            }
+
+            public int setSize(int size) {
+                return this.size = size;
+            }
+        }
+
+        public Asteroid() {
+        }
+
+        public float getSpeed() {
+            return speed;
+        }
+
+        public void setSpeed(float speed) {
+            this.speed = speed;
+        }
+
+        @Override
+        public double getBoundingCircleRadius() {
+            return boundingCircleRadius;
+        }
+
+        public void setBoundingCircleRadius(double newBoundingCircleRadius) {
+            this.boundingCircleRadius = newBoundingCircleRadius;
+        }
+
+        @Override
+        public int getHealthPoints() {
+            return this.healthPoints;
+        }
+
+        public void setHealthPoints(int newHealthPoints) {
+            this.healthPoints = newHealthPoints;
+        }
+
+        @Override
+        public void takeDamage(int damagePoints) {
+            this.healthPoints -= damagePoints;
         }
     }
-    
-    private Size size;
-    
-    public Size getSize() {
-        return size;
-    }
-    
-    public void setSize(Size size) {
-        this.size = size;
-    }
-}
