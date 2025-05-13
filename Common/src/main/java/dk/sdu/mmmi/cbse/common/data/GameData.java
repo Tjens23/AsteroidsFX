@@ -5,7 +5,7 @@ public class GameData {
     private int displayWidth  = 800 ;
     private int displayHeight = 800;
     private final GameKeys keys = new GameKeys();
-
+    private long delta;
 
     public GameKeys getKeys() {
         return keys;
@@ -27,5 +27,8 @@ public class GameData {
         return displayHeight;
     }
 
+    public double getDeltaSeconds() {
+        return this.delta * 0.000000001;
+    }
 
 }
