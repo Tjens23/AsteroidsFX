@@ -13,7 +13,8 @@ public class Entity implements Serializable {
     private double y;
     private double rotation;
     private float radius;
-            
+    private boolean isPlayer;
+    public boolean isDestroyed;
 
     public String getID() {
         return ID.toString();
@@ -67,5 +68,13 @@ public class Entity implements Serializable {
         
     public float getRadius() {
         return this.radius;
+    }
+
+    public void setPlayer(boolean player) {
+        this.isPlayer = player;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.isDestroyed = destroyed;
     }
 }

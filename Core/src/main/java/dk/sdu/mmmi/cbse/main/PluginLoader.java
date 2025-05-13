@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
  */
 public class PluginLoader {
     // Directory where plugin modules are located
-    private static final String PLUGIN_DIR = "plugin-modules";
+    private static final String PLUGIN_DIR = "plugins";
     private ModuleLayer pluginLayer;
-    
+
     /**
      * Initializes the plugin layer by finding and loading all modules from 
      * the plugin-modules directory
@@ -113,7 +113,7 @@ public class PluginLoader {
             ServiceLoader<T> bootLayerServices = ServiceLoader.load(serviceType);
             for (T service : bootLayerServices) {
                 String serviceClass = service.getClass().getName();
-                if (loadedServiceClasses.add(serviceClass)) { // Will only add if not present
+                if (loadedServiceClasses.add(serviceClass)) {
                     System.out.println("Found service in boot layer: " + serviceClass + 
                                   " from module: " + service.getClass().getModule().getName());
                     services.add(service);
@@ -126,7 +126,7 @@ public class PluginLoader {
                 ServiceLoader<T> pluginLayerServices = ServiceLoader.load(pluginLayer, serviceType);
                 for (T service : pluginLayerServices) {
                     String serviceClass = service.getClass().getName();
-                    if (loadedServiceClasses.add(serviceClass)) { // Will only add if not present
+                    if (loadedServiceClasses.add(serviceClass)) {
                         System.out.println("Found service in plugin layer: " + serviceClass + 
                                       " from module: " + service.getClass().getModule().getName());
                         services.add(service);

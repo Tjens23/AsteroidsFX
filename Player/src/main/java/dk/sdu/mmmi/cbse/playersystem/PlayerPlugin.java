@@ -20,13 +20,16 @@ public class PlayerPlugin implements IGamePluginService {
     }
 
     private Entity createPlayerShip(GameData gameData) {
+        Player playerShip = new Player();
+        playerShip.setPolygonCoordinates(-5, -5, 10, 0, -5, 5);
+        playerShip.setX((double) gameData.getDisplayWidth() / 2);
+        playerShip.setY((double) gameData.getDisplayHeight() / 2);
+        playerShip.setPlayer(true);
 
-        Entity playerShip = new Player();
-        playerShip.setEntityType("PLAYER");  // Set entity type
-        playerShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
-        playerShip.setX(gameData.getDisplayHeight()/2);
-        playerShip.setY(gameData.getDisplayWidth()/2);
-        playerShip.setRadius(8);
+        playerShip.setHealthPoints(5);
+
+        playerShip.setBoundingCircleRadius(5);
+
         return playerShip;
     }
 
