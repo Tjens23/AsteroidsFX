@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface ScoreRepository extends JpaRepository<Score, Long> {
@@ -17,9 +18,9 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
     
     /**
      * Find scores by player name ordered by value in descending order.
-     * @param playerName the name of the player
+     * @param playerID the name of the player
      * @return List of scores for the given player
      */
-    List<Score> findByPlayerNameOrderByScoreDesc(String playerName);
+    List<Score> findByPlayerID(UUID playerID);
 }
 

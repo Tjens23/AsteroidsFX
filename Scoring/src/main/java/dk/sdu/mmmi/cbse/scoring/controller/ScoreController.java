@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/scores")
@@ -25,7 +26,7 @@ public class ScoreController {
      * @param score the score to submit
      * @return the saved score with generated ID
      */
-    @PostMapping
+    @PostMapping("/submit")
     public ResponseEntity<Score> submitScore(@RequestBody Score score) {
         Score savedScore = scoreService.saveScore(score);
         return new ResponseEntity<>(savedScore, HttpStatus.CREATED);
@@ -40,15 +41,15 @@ public class ScoreController {
         List<Score> topScores = scoreService.getTopScores();
         return new ResponseEntity<>(topScores, HttpStatus.OK);
     }
-    
+
     /**
      * Get all scores for a specific player
-     * @param playerName the name of the player
+     * @param playerID the name of the player
      * @return list of scores for the player
      */
     @GetMapping("/player/{playerName}")
-    public ResponseEntity<List<Score>> getScoresByPlayer(@PathVariable String playerName) {
-        List<Score> playerScores = scoreService.getScoresByPlayer(playerName);
+    public ResponseEntity<List<Score>> getScoresByPlayer(@PathVariable UUID playerID) {
+        List<Score> playerScores = scoreService.getScoresByPlayer(playerID);
         return new ResponseEntity<>(playerScores, HttpStatus.OK);
     }
     

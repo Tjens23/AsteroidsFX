@@ -21,7 +21,7 @@ public class Main extends Application {
         System.out.println("=====================================");
         
         // Create plugin-modules directory if it doesn't exist
-        Path pluginDir = Paths.get("plugin-modules");
+        Path pluginDir = Paths.get("plugin");
         if (!Files.exists(pluginDir)) {
             Files.createDirectories(pluginDir);
         }

@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "scores")
@@ -15,7 +16,7 @@ public class Score {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String playerName;
+    private UUID playerID;
     
     @Column(name = "score_value")
     private int score; // Changed from 'value' to 'score'
@@ -34,8 +35,8 @@ public class Score {
     }
 
     // Constructor with player name and score value
-    public Score(String playerName, int score) {
-        this.playerName = playerName;
+    public Score(UUID playerID, int score) {
+        this.playerID = playerID;
         this.score = score;
         this.timestamp = LocalDateTime.now();
     }
@@ -49,12 +50,12 @@ public class Score {
         this.id = id;
     }
 
-    public String getPlayerName() {
-        return playerName;
+    public UUID getPlayerID() {
+        return this.playerID;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setPlayerID(UUID playerID) {
+        this.playerID = playerID;
     }
 
     public int getScore() {
@@ -77,7 +78,7 @@ public class Score {
     public String toString() {
         return "Score{" +
                 "id=" + id +
-                ", playerName='" + playerName + '\'' +
+                ", getPlayerID='" + playerID + '\'' +
                 ", score=" + score +
                 ", timestamp=" + timestamp +
                 '}';

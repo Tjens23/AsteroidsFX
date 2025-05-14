@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ScoreService {
@@ -36,11 +37,11 @@ public class ScoreService {
     
     /**
      * Get all scores for a specific player
-     * @param playerName the name of the player
+     * @param playerID the name of the player
      * @return list of scores for the player
      */
-    public List<Score> getScoresByPlayer(String playerName) {
-        return repository.findByPlayerNameOrderByScoreDesc(playerName);
+    public List<Score> getScoresByPlayer(UUID playerID) {
+        return repository.findByPlayerID(playerID);
     }
     
     /**
