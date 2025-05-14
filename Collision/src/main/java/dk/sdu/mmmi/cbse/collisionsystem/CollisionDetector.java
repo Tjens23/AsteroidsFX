@@ -72,7 +72,9 @@ public class CollisionDetector implements IPostEntityProcessingService {
         else if ((entity1 instanceof Player && entity2 instanceof Enemy) ||
                 (entity1 instanceof Enemy && entity2 instanceof Player)) {
             Entity player = (entity1 instanceof Player) ? entity1 : entity2;
+            Entity enemy = (entity1 instanceof Enemy) ? entity1 : entity2;
             entitiesToRemove.add(player);
+            entitiesToRemove.add(enemy);
             System.out.println("GAME OVER - Player collided with enemy!");
         }
         // Handle Enemy Bullet-Player collision
