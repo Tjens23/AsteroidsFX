@@ -68,8 +68,16 @@ public class CollisionDetector implements IPostEntityProcessingService {
             entitiesToRemove.add(entity1);
             entitiesToRemove.add(entity2);
             System.out.println("GAME OVER - Player hit by asteroid!");
-            // Game over logic would go here
+            Main.getGame().setGameOver();
         }
+
+
+        if((entity1 instanceof Enemy && entity2 instanceof Asteroid) ||
+                (entity1 instanceof Asteroid && entity2 instanceof Enemy)) {
+            entitiesToRemove.add(entity1);
+            entitiesToRemove.add(entity2);
+        }
+
         // Handle Player-Enemy collision
         else if ((entity1 instanceof Player && entity2 instanceof Enemy) ||
                 (entity1 instanceof Enemy && entity2 instanceof Player)) {
@@ -78,6 +86,8 @@ public class CollisionDetector implements IPostEntityProcessingService {
             entitiesToRemove.add(player);
             entitiesToRemove.add(enemy);
             System.out.println("GAME OVER - Player collided with enemy!");
+            Main.getGame().setGameOver();
+
         }
         // Handle Enemy Bullet-Player collision
         else if ((entity1 instanceof Bullet && entity2 instanceof Player) ||
@@ -90,6 +100,8 @@ public class CollisionDetector implements IPostEntityProcessingService {
                 entitiesToRemove.add(player);
                 entitiesToRemove.add(bullet);
                 System.out.println("GAME OVER - Player hit by enemy bullet!");
+                Main.getGame().setGameOver();
+
             }
         }
         // Handle Player Bullet-Enemy collision
