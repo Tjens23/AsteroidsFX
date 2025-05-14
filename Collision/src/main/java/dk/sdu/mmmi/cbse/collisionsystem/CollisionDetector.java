@@ -8,6 +8,8 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.enemy.Enemy;
+import dk.sdu.mmmi.cbse.main.Game;
+import dk.sdu.mmmi.cbse.main.Main;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 
 import java.util.ArrayList;
@@ -16,7 +18,6 @@ import java.util.ServiceLoader;
 
 public class CollisionDetector implements IPostEntityProcessingService {
     private IAsteroidSplitter asteroidSplitter;
-
     public CollisionDetector() {
         // Load the asteroid splitter service
         ServiceLoader<IAsteroidSplitter> loader = ServiceLoader.load(IAsteroidSplitter.class);
@@ -24,6 +25,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             asteroidSplitter = loader.findFirst().get();
         }
     }
+
 
     @Override
     public void process(GameData gameData, World world) {
@@ -112,6 +114,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             asteroidsToSplit.add(asteroid);
             entitiesToRemove.add(bullet);
             entitiesToRemove.add(asteroid);
+            Main.getGame().incrementScore();
             System.out.println("Bullet hit asteroid: " + asteroid.getID() + " with health points " + asteroid.getHealthPoints());
         }
     }

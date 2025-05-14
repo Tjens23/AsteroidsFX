@@ -6,6 +6,7 @@ module Collision {
     requires CommonAsteroids;
     requires Player;
     requires Enemy;
+    requires Core;
     exports dk.sdu.mmmi.cbse.collisionsystem;
 
     provides IPostEntityProcessingService

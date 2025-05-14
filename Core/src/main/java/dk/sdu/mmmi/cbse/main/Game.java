@@ -35,7 +35,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author jcs
  */
-class Game {
+public class Game {
 
     private final GameData gameData = new GameData();
     private final World world = new World();
@@ -44,7 +44,8 @@ class Game {
     private final List<IGamePluginService> gamePluginServices;
     private final List<IEntityProcessingService> entityProcessingServiceList;
     private final List<IPostEntityProcessingService> postEntityProcessingServices;
-    
+    private Game game = null;
+
     // Game state variables
     private boolean gameOver = false;
     private int score = 0;
@@ -63,7 +64,7 @@ class Game {
         scoreText = new Text(10, 20, "Destroyed asteroids: 0");
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(scoreText);
-        
+        setGame(game);
         // Create game over text
         gameOverText = new Text(gameData.getDisplayWidth()/2, gameData.getDisplayHeight()/2, 
                 "GAME OVER\nPress R to restart");
@@ -119,6 +120,9 @@ class Game {
             polygons.put(entity, polygon);
             gameWindow.getChildren().add(polygon);
         }
+
+
+
         window.setScene(scene);
         window.setTitle("ASTEROIDS");
         window.show();
@@ -201,7 +205,15 @@ class Game {
             System.out.println("GAME OVER");
         }
     }
-    
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return this.game;
+    }
+
     /**
      * Increments the score when an asteroid is destroyed
      */

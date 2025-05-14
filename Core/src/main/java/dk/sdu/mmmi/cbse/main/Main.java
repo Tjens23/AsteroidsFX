@@ -6,42 +6,43 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.IOException;
 import dk.sdu.mmmi.cbse.core.plugin.PluginService;
 import java.util.List;
 
 public class Main extends Application {
-    
+    private static Game game;
     private AnnotationConfigApplicationContext ctx;
-    
+
     @Override
     public void start(Stage window) throws Exception {
         System.out.println("=====================================");
         System.out.println("Starting AsteroidsFX game with dynamic plugin loading...");
         System.out.println("=====================================");
-        
+
         // Create plugin-modules directory if it doesn't exist
         Path pluginDir = Paths.get("plugin");
         if (!Files.exists(pluginDir)) {
             Files.createDirectories(pluginDir);
         }
-        
+
         try {
             System.out.println("\nInitializing Spring context...");
             ctx = new AnnotationConfigApplicationContext(ModuleConfig.class);
 
             // Demonstrate the split package scenario with plugin services
             demonstratePluginServices();
-            
+
             System.out.println("\nRegistered Spring beans:");
             for (String beanName : ctx.getBeanDefinitionNames()) {
                 System.out.println(" - " + beanName);
             }
-            
-            Game game = ctx.getBean(Game.class);
+
+            game = ctx.getBean(Game.class);
             game.start(window);
             game.render();
-            
+
+            setGame(game);
+
         } catch (Exception e) {
             System.err.println("Error initializing application: " + e.getMessage());
             e.printStackTrace();
@@ -81,11 +82,19 @@ public class Main extends Application {
             
             System.out.println("\nDemonstration of split package handling complete!");
             System.out.println("=====================================\n");
-            
         } catch (Exception e) {
             System.err.println("Error during plugin service demonstration: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static Game getGame() {
+        return game;
+    }
+
+    public static Game setGame(Game g) {
+        game = g;
+        return game;
     }
 
     public static void main(String[] args) {
