@@ -7,6 +7,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import dk.sdu.mmmi.cbse.enemy.Enemy;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 
 import java.util.ArrayList;
@@ -66,6 +67,26 @@ public class CollisionDetector implements IPostEntityProcessingService {
             entitiesToRemove.add(entity2);
             System.out.println("GAME OVER - Player hit by asteroid!");
             // Game over logic would go here
+        }
+        // Handle Player-Enemy collision
+        else if ((entity1 instanceof Player && entity2 instanceof Enemy) ||
+                (entity1 instanceof Enemy && entity2 instanceof Player)) {
+            Entity player = (entity1 instanceof Player) ? entity1 : entity2;
+            entitiesToRemove.add(player);
+            System.out.println("GAME OVER - Player collided with enemy!");
+        }
+        // Handle Enemy Bullet-Player collision
+        else if ((entity1 instanceof Bullet && entity2 instanceof Player) ||
+                (entity1 instanceof Player && entity2 instanceof Bullet)) {
+            Bullet bullet = (entity1 instanceof Bullet) ? (Bullet) entity1 : (Bullet) entity2;
+            Entity player = (entity1 instanceof Player) ? entity1 : entity2;
+
+            // Check if the bullet was fired by an enemy
+            if (bullet.getShooter() instanceof Enemy) {
+                entitiesToRemove.add(player);
+                entitiesToRemove.add(bullet);
+                System.out.println("GAME OVER - Player hit by enemy bullet!");
+            }
         }
         // Handle Bullet-Asteroid collision
         else if ((entity1 instanceof Bullet && entity2 instanceof Asteroid) ||

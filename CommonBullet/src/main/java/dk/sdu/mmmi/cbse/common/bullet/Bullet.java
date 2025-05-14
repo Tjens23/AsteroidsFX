@@ -8,7 +8,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
  */
 public class Bullet extends Entity {
     private static final int DEFAULT_BULLET_SIZE = 2;
-    
+    private Entity shooter;
     public Bullet() {
         float[] shape = new float[]{
             -DEFAULT_BULLET_SIZE, -DEFAULT_BULLET_SIZE,
@@ -27,5 +27,14 @@ public class Bullet extends Entity {
         
         // Debug print
         System.out.println("Created new bullet with radius: " + getRadius());
+    }
+
+
+    public Entity getShooter() {
+        return this.shooter;
+    }
+
+    public void setShooter(Entity shooter) {
+        this.shooter = shooter;
     }
 }

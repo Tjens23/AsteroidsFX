@@ -61,23 +61,20 @@ public class EnemyControlSystem implements IEntityProcessingService {
                     }
 
 
-                    // Shooting handling
                     if (angle - 10 < enemy.getRotation() && angle + 10 > enemy.getRotation()) {
                         for (BulletSPI bulletSPI : getBulletSPIs()) {
                             double randomChanceOfShooting = (Math.random() * 100);
-                            // 1% chance of shooting
-                            if (randomChanceOfShooting <= 1) {
+
+                            if(randomChanceOfShooting >= 95) {
                                 world.addEntity(bulletSPI.createBullet(enemy, gameData));
                             }
-                            // TODO: Proper cooldown for shooting
                         }
                     }
                 }
             }
 
 
-            // TODO: Add configuration for disabling the border.
-            // Ensures the enemy doesn't go out of bound.
+
             if (enemy.getX() < 0) { // LEFT BORDER
                 enemy.setX(1);
             }

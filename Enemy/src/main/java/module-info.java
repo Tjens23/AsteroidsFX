@@ -11,4 +11,6 @@ module Enemy {
     provides IGamePluginService with dk.sdu.mmmi.cbse.enemy.EnemyPlugin;
     provides IEntityCircleCollision with dk.sdu.mmmi.cbse.enemy.Enemy;
     provides IEntityProcessingService with dk.sdu.mmmi.cbse.enemy.EnemyControlSystem;
+    
+    exports dk.sdu.mmmi.cbse.enemy;
 }
