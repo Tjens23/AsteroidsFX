@@ -45,4 +45,5 @@ public class Player extends Entity implements IEntityCircleCollision, IEntityHea
     public boolean isDestroyed() {
         return super.isDestroyed;
     }
+
 }
