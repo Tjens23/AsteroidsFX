@@ -56,8 +56,19 @@ public class Game {
         this.postEntityProcessingServices = postEntityProcessingServices;
     }
 
+    public int getScoreFromBackend() {
+        int score = 0;
+        try {
+            String url = "http://localhost:8080/score/get";
+            score = restTemplate.getForObject(url, Integer.class);
+        } catch (Exception e) {
+            System.err.println("Failed to get score from backend: " + e.getMessage());
+        }
+        return score;
+    }
+
     public void start(Stage window) throws Exception {
-        scoreText = new Text(10, 20, "Destroyed asteroids: 0");
+        scoreText = new Text(10, 20, "Destroyed asteroids: " + getScoreFromBackend());
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(scoreText);
         setGame(game);
