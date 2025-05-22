@@ -4,6 +4,7 @@
  */
 package dk.sdu.mmmi.cbse.main;
 
+import dk.sdu.mmmi.cbse.common.asteroids.Asteroid;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
@@ -217,9 +218,23 @@ public class Game {
     /**
      * Increments the score when an asteroid is destroyed
      */
-    public void incrementScore() {
-        score++;
-        scoreText.setText("Destroyed asteroids: " + score);
+    /**
+     * Increments the score when an asteroid is destroyed
+     */
+    public void incrementScore(Entity entity) {
+        // Check if it's an asteroid and hasn't been counted
+        if (entity instanceof Asteroid) {
+            Asteroid asteroid = (Asteroid) entity;
+            if (!asteroid.isScoreProcessed()) {
+                score++;
+                scoreText.setText("Destroyed asteroids: " + score);
+                asteroid.setScoreProcessed(true);
+            }
+        } else {
+            // For backward compatibility, handle the case where entity type isn't specified
+            score++;
+            scoreText.setText("Destroyed asteroids: " + score);
+        }
     }
 
     private void update() {

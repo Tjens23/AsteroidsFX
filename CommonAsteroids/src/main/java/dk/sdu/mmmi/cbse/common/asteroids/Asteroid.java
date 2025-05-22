@@ -13,6 +13,7 @@ package dk.sdu.mmmi.cbse.common.asteroids;
         private float speed = 1;
         private int healthPoints;
         private double boundingCircleRadius;
+        private boolean scoreProcessed = false;
         public enum Size {
             SMALL(1),
             MEDIUM(20),
@@ -65,5 +66,13 @@ package dk.sdu.mmmi.cbse.common.asteroids;
         @Override
         public void takeDamage(int damagePoints) {
             this.healthPoints -= damagePoints;
+        }
+
+        public boolean isScoreProcessed() {
+            return this.scoreProcessed;
+        }
+
+        public void setScoreProcessed(boolean scoreProcessed) {
+            this.scoreProcessed = scoreProcessed;
         }
     }

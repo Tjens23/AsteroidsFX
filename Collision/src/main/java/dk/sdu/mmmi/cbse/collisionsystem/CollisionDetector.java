@@ -126,7 +126,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             asteroidsToSplit.add(asteroid);
             entitiesToRemove.add(bullet);
             entitiesToRemove.add(asteroid);
-            Main.getGame().incrementScore();
+            Main.getGame().incrementScore(asteroid);
             System.out.println("Bullet hit asteroid: " + asteroid.getID() + " with health points " + asteroid.getHealthPoints());
         }
     }

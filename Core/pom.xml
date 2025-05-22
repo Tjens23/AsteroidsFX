@@ -73,6 +73,11 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-commons</artifactId>
         </dependency>
+        <dependency>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
+            <artifactId>CommonAsteroids</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
