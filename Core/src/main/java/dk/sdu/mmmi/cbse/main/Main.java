@@ -1,5 +1,8 @@
 package dk.sdu.mmmi.cbse.main;
 
+import dk.sdu.mmmi.cbse.common.data.GameData;
+import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -7,11 +10,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import dk.sdu.mmmi.cbse.core.plugin.PluginService;
+import java.util.Collection;
 import java.util.List;
+import java.util.ServiceLoader;
+
+import static java.util.stream.Collectors.toList;
 
 public class Main extends Application {
     private static Game game;
     private AnnotationConfigApplicationContext ctx;
+    private final GameData gameData = new GameData();
+    private final World world = new World();
 
     @Override
     public void start(Stage window) throws Exception {
@@ -20,7 +29,7 @@ public class Main extends Application {
         System.out.println("=====================================");
 
         // Create plugin-modules directory if it doesn't exist
-        Path pluginDir = Paths.get("plugin");
+        Path pluginDir = Paths.get("plugins");
         if (!Files.exists(pluginDir)) {
             Files.createDirectories(pluginDir);
         }
@@ -60,25 +69,25 @@ public class Main extends Application {
         System.out.println("=====================================");
         
         try {
-            // Get the plugin services from Spring context (includes both Core and Bullet implementations)
-            List<PluginService> pluginServices = 
-                    ctx.getBean("pluginServices", List.class);
-            
-            if (pluginServices.isEmpty()) {
-                System.out.println("No plugin services found!");
-                return;
+            for (IGamePluginService iGamePlugin : getPluginServices()) {
+                System.out.println("Starting plugin: " + iGamePlugin.getClass().getSimpleName());
+                iGamePlugin.start(gameData, world);
             }
-            
-            System.out.println("\nFound " + pluginServices.size() + " Plugin Service implementations:");
-            
-            // Call methods on each plugin service to demonstrate they work
+
+            //print the loaded plugin services
+            System.out.println("\nLoaded plugin services:");
+            List<PluginService> pluginServices = getPluginServices().stream()
+                    .filter(service -> service instanceof PluginService)
+                    .map(service -> (PluginService) service)
+                    .collect(toList());
+
             for (PluginService service : pluginServices) {
-                System.out.println("\n* Plugin Service: " + service.getClass().getName());
-                System.out.println("  - Name: " + service.getName());
-                System.out.println("  - Description: " + service.getDescription());
-                System.out.println("  - Action result: " + service.performAction());
-                System.out.println("  - Module: " + service.getClass().getModule().getName());
+                System.out.println(" - " + service.getClass().getName());
+                System.out.println("   - Name: " + service.getName());
+                System.out.println("   - Description: " + service.getDescription());
+                System.out.println("   - Module: " + service.getClass().getModule().getName());
             }
+
             
             System.out.println("\nDemonstration of split package handling complete!");
             System.out.println("=====================================\n");
@@ -95,6 +104,9 @@ public class Main extends Application {
     public static Game setGame(Game g) {
         game = g;
         return game;
+    }
+    private Collection<? extends IGamePluginService> getPluginServices() {
+        return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 
     public static void main(String[] args) {
