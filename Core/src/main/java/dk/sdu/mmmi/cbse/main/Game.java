@@ -12,16 +12,15 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
@@ -30,7 +29,6 @@ import javafx.scene.text.TextAlignment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import javafx.stage.Stage;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  *
@@ -53,7 +51,6 @@ public class Game {
     private Text scoreText;
     private Text gameOverText;
     private RestTemplate restTemplate = new RestTemplate();
-    private static final String SCORING_SERVICE_URL = "http://localhost:8080/api/scores";
 
     Game(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessingServiceList, List<IPostEntityProcessingService> postEntityProcessingServices) {
         this.gamePluginServices = gamePluginServices;
@@ -147,9 +144,6 @@ public class Game {
      * Restarts the game by resetting the world, game state, and plugins
      */
     private void restartGame() {
-        // Submit score to scoring service
-        submitScore();
-        
         // Clear current entities
         for (Entity entity : world.getEntities()) {
             world.removeEntity(entity);
@@ -175,26 +169,7 @@ public class Game {
             gameWindow.getChildren().add(polygon);
         }
     }
-    
-    /**
-     * Submits the final score to the scoring service
-     */
-    private void submitScore() {
-        try {
-            // Create score object (adapt to your actual Score class as needed)
-            Map<String, Object> scoreData = new ConcurrentHashMap<>();
-            scoreData.put("player", "Player1");
-            scoreData.put("score", score);
-            
-            // Post score to the scoring service
-            ResponseEntity<String> response = restTemplate.postForEntity(
-                SCORING_SERVICE_URL, scoreData, String.class);
-            
-            System.out.println("Score submitted: " + response.getBody());
-        } catch (Exception e) {
-            System.err.println("Failed to submit score: " + e.getMessage());
-        }
-    }
+
     
     /**
      * Handles game over state
@@ -215,27 +190,37 @@ public class Game {
         return this.game;
     }
 
-    /**
-     * Increments the score when an asteroid is destroyed
-     */
-    /**
-     * Increments the score when an asteroid is destroyed
-     */
-    public void incrementScore(Entity entity) {
+
+    public void incrementScore(Entity entity, int points) {
         // Check if it's an asteroid and hasn't been counted
         if (entity instanceof Asteroid) {
             Asteroid asteroid = (Asteroid) entity;
             if (!asteroid.isScoreProcessed()) {
-                score++;
-                scoreText.setText("Destroyed asteroids: " + score);
+                this.score += points;
+                scoreText.setText("Destroyed asteroids: " + this.score);
                 asteroid.setScoreProcessed(true);
+                sendScoreToBackend(points);
             }
         } else {
             // For backward compatibility, handle the case where entity type isn't specified
-            score++;
-            scoreText.setText("Destroyed asteroids: " + score);
+            this.score += points;
+            scoreText.setText("Destroyed asteroids: " + this.score);
+
+            // Send score to backend
+            sendScoreToBackend(points);
         }
     }
+
+    private void sendScoreToBackend(int points) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "http://localhost:8080/score/add/" + points;
+            restTemplate.put(url, null);
+        } catch (Exception e) {
+            System.err.println("Failed to send score to backend: " + e.getMessage());
+        }
+    }
+
 
     private void update() {
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {

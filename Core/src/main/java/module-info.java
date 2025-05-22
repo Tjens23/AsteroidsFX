@@ -7,6 +7,7 @@ module Core {
     requires spring.beans;
     requires spring.web;
     requires CommonAsteroids;
+    requires java.net.http;
 
     exports dk.sdu.mmmi.cbse.main;
     exports dk.sdu.mmmi.cbse.core.plugin;
