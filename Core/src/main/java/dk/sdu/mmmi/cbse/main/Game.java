@@ -13,7 +13,6 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +25,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import javafx.stage.Stage;
 
@@ -192,6 +190,11 @@ public class Game {
 
 
     public void incrementScore(Entity entity, int points) {
+        // Check entity type by class name instead of instanceof
+        if (entity.getClass().getName().contains("ENEMY")) {
+            return;
+        }
+
         // Check if it's an asteroid and hasn't been counted
         if (entity instanceof Asteroid) {
             Asteroid asteroid = (Asteroid) entity;
