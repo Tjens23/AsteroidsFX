@@ -8,6 +8,9 @@ module Core {
     requires spring.web;
     requires CommonAsteroids;
     requires java.net.http;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.annotation;
 
     exports dk.sdu.mmmi.cbse.main;
     exports dk.sdu.mmmi.cbse.core.plugin;

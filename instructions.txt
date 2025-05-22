@@ -1,4 +1,9 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+Please follow these manual steps to fix the Core/pom.xml file:
+
+1. Delete the existing Core/pom.xml file
+2. Create a new file at D:\AsteroidsFX\Core\pom.xml with the following content:
+
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -116,3 +121,8 @@
         </plugins>
     </build>
 </project>
+
+3. After creating the new file, run the following commands:
+   mvn clean install
+   mvn exec:exec
+

@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+$pomContent = @'
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -116,3 +117,11 @@
         </plugins>
     </build>
 </project>
+'@
+
+$pomContent | Out-File -FilePath "D:\AsteroidsFX\Core\pom.xml" -Encoding UTF8
+
+Write-Host "pom.xml file has been created. Now run the following commands:"
+Write-Host "mvn clean install"
+Write-Host "mvn exec:exec"
+

@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import org.springframework.web.client.RestTemplate;
 import javafx.stage.Stage;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 /**
  *
@@ -55,6 +56,12 @@ public class Game {
     public int getScoreFromBackend() {
         int score = 0;
         try {
+            RestTemplate restTemplate = new RestTemplate();
+
+            // Add Jackson message converter to handle JSON responses
+            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+            restTemplate.getMessageConverters().add(converter);
+
             String url = "http://localhost:8080/score/get";
             score = restTemplate.getForObject(url, Integer.class);
         } catch (Exception e) {
@@ -198,7 +205,7 @@ public class Game {
 
     public void incrementScore(Entity entity, int points) {
         // Check entity type by class name instead of instanceof
-        if (entity.getClass().getName().contains("ENEMY")) {
+        if (entity.getClass().getName().contains("Enemy")) {
             return;
         }
 
