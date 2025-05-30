@@ -57,11 +57,6 @@ public class Game {
         int score = 0;
         try {
             RestTemplate restTemplate = new RestTemplate();
-
-            // Add Jackson message converter to handle JSON responses
-            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-            restTemplate.getMessageConverters().add(converter);
-
             String url = "http://localhost:8080/score/get";
             score = restTemplate.getForObject(url, Integer.class);
         } catch (Exception e) {
@@ -69,7 +64,6 @@ public class Game {
         }
         return score;
     }
-
     public void start(Stage window) throws Exception {
         scoreText = new Text(10, 20, "Destroyed asteroids: " + getScoreFromBackend());
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
